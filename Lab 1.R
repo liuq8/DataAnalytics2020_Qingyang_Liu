@@ -41,16 +41,98 @@ df2
 GPW3=read.csv('/Users/claireliu/Documents/MSBA/6962 Data Analytics/GPW3_GRUMP_SummaryInformation_2010.csv')
 
 GPW3
+
 hist(GPW3$Resolution)
-EPI2010=read_excel('/Users/claireliu/Documents/MSBA/6962 Data Analytics/2010EPI_data.xls')
 install.packages("readxl")
 library("readxl")
+EPI2010=read_excel('/Users/claireliu/Documents/MSBA/6962 Data Analytics/2010EPI_data.xls')
 
-EPI_data <- read.csv()
-attach(EPI2010)
-fix(EPI2010)
-View(EPI2010)
-EPI=EPI2010$`2010 Environmental Performance Index (EPI)`
+EPI_data <- read.csv('/Users/claireliu/Documents/MSBA/6962 Data Analytics/EPI_data.csv')
+attach(EPI_data)
+fix(EPI_data)
+View(EPI_data)
+EPI=EPI_data$EPI
 tf <- is.na(EPI)
 E <- EPI[!tf]
 EPI
+
+summary(EPI)
+fivenum(EPI)
+stem(EPI)
+hist(EPI)
+hist(EPI,seq(30.,95.,1.0),prob=TRUE)
+lines(density(EPI,na.rm=TRUE,bw=1))
+rug(EPI)
+
+#Excercise 1
+plot(ecdf(EPI),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(EPI); qqline(EPI)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+plot(ecdf(DALY),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(DALY); qqline(DALY)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+plot(ecdf(WATER_H),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(WATER_H); qqline(WATER_H)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+boxplot(EPI,DALY)
+qqplot(EPI,DALY)
+boxplot(WATER_H,AIR_H)
+qqplot(WATER_H,AIR_H)
+
+#Exercise 2
+EPILand <- EPI[!Landlock]
+Eland <- EPI[!is.na(EPILand)]
+hist(Eland)
+hist(Eland,seq(30.,95.,1.0),prob=TRUE)
+
+plot(ecdf(Eland),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(Eland); qqline(Eland)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+EPI_South_Asia <- EPI[EPI_regions=="South Asia"]
+EPI_South_Asia
+
+
+View(GPW3)
+Diff95 <- GPW3$Diff95
+plot(ecdf(Diff95),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(EPI); qqline(EPI)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+AsiaDiff95 <- Diff59[GPW3$ContinentName=="Asia"]
+hist(AsiaDiff95)
+boxplot(AsiaDiff95)
+
+
+water_treatment<- read.csv('/Users/claireliu/Documents/MSBA/6962 Data Analytics/water-treatment.csv')
+View(water_treatment)
+PH.E <- water_treatment$PH.E
+DQO.E <- water_treatment$DQO.E
+
+plot(ecdf(PH.E),do.points=FALSE,verticals = TRUE)
+par(pty='s')
+qqnorm(EPI); qqline(EPI)
+x <- seq(30,95,1)
+qqplot(qt(ppoints(250),df=5),x,xlab="Q-Q plot for tdsn")
+qqline(x)
+
+DatePH7.5 <- water_treatment$DATE[PH.E>=7.5]
+boxplot(PH.E)
