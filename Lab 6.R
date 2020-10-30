@@ -28,6 +28,7 @@ colnames(data1)<- c('BuyingPrice','Maintainenance','NumDoors','NumPersons','Boot
 head(data1)
 str(data1)
 levels(data1$Condition)
+data1$Condition <- as.factor(data1$Condition)
 summary(data1)
 set.seed(100)
 train <- sample(nrow(data1),0.7*nrow(data1),replace=FALSE)
